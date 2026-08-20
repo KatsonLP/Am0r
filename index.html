@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feliz Aniversário! ❤️</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ffe6e8; text-align: center; padding: 20px; color: #4a4a4a; }
+    .container { max-width: 420px; background: #ffffff; margin: 20px auto; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    h1 { color: #d81b60; font-size: 24px; margin-bottom: 20px; }
+    .question { text-align: left; margin-bottom: 20px; }
+    label { font-weight: bold; display: block; margin-bottom: 8px; color: #333; }
+    select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; background-color: #fff; font-size: 15px; box-sizing: border-box; }
+    button { background-color: #d81b60; color: white; border: none; padding: 14px 20px; border-radius: 25px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; margin-top: 10px; }
+    button:hover { background-color: #ad1457; }
+    .btn-copiar { background-color: #25d366; margin-top: 15px; }
+    .btn-copiar:hover { background-color: #1eb956; }
+    #presente { display: none; margin-top: 25px; animation: fadeIn 0.8s; }
+    #erro { color: #e53935; display: none; margin-top: 15px; font-weight: bold; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>🎉 Parabéns, meu amor! ❤️</h1>
+    <p style="margin-bottom: 25px;">Responda às perguntas abaixo para liberar o seu presente especial:</p>
+
+    <div class="question">
+      <label for="p1">1. Qual o nome do seu am0r?</label>
+      <select id="p1">
+        <option value="">Selecione uma opção...</option>
+        <option value="A">A- Mozy</option>
+        <option value="B">B- Kats0n</option>
+        <option value="C">C- Mozão</option>
+        <option value="D">D- Vida</option>
+      </select>
+    </div>
+
+    <div class="question">
+      <label for="p2">2. Qual o nome do nosso filho?</label>
+      <select id="p2">
+        <option value="">Selecione uma opção...</option>
+        <option value="A">A- Apollo</option>
+        <option value="B">B- Apollo e Casca</option>
+        <option value="C">C- Negão</option>
+        <option value="D">D- Cheldon</option>
+      </select>
+    </div>
+
+    <div class="question">
+      <label for="p3">3. Há quanto tempo você está junta do seu am0r?</label>
+      <select id="p3">
+        <option value="">Selecione uma opção...</option>
+        <option value="A">A- 18 anos</option>
+        <option value="B">B- 10 anos</option>
+        <option value="C">C- 20 anos</option>
+        <option value="D">D- 5 anos</option>
+      </select>
+    </div>
+
+    <button onclick="validarQuiz()">Desbloquear Presente 🎁</button>
+
+    <p id="erro">Ops! Alguma resposta não está certa. Tente novamente! ❤️</p>
+
+    <div id="presente">
+      <h2>✨ Você acertou tudo! ✨</h2>
+      <p>Escaneie o QR Code ou clique no botão para copiar o código Pix:</p>
+      <img id="qrcode-img" src="" alt="QR Code Pix" width="220" style="border-radius: 10px; margin-top: 10px;">
+      
+      <button class="btn-copiar" onclick="copiarPix()">📋 Copiar Código Pix</button>
+    </div>
+  </div>
+
+  <script>
+    // Cole o seu código Pix entre as aspas abaixo:
+    const codigoPix = "00020126360014BR.GOV.BCB.PIX0114+55889971371785204000053039865406500.005802BR5922Katson Laerte Pinheiro6009SAO PAULO62140510mKjVqefbaF6304390C";
+
+    function validarQuiz() {
+      const resp1 = document.getElementById('p1').value;
+      const resp2 = document.getElementById('p2').value;
+      const resp3 = document.getElementById('p3').value;
+
+      const q1Correta = resp1 !== ""; 
+      const q2Correta = resp2 === "B"; 
+      const q3Correta = resp3 === "A"; 
+
+      if (q1Correta && q2Correta && q3Correta) {
+        // Gera o QR Code automaticamente usando o código do Pix
+        const qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + encodeURIComponent(codigoPix);
+        document.getElementById('qrcode-img').src = qrUrl;
+
+        document.getElementById('presente').style.display = 'block';
+        document.getElementById('erro').style.display = 'none';
+      } else {
+        document.getElementById('erro').style.display = 'block';
+        document.getElementById('presente').style.display = 'none';
+      }
+    }
+
+    function copiarPix() {
+      navigator.clipboard.writeText(codigoPix);
+      alert("Código Pix copiado! Agora é só abrir o app do banco e usar a opção 'Pix Copia e Cola'. ❤️");
+    }
+  </script>
+</body>
+</html>
