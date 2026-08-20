@@ -16,7 +16,7 @@
       color: #4a4a4a;
     }
 
-    /* Fotos trocando de fundo automaticamente */
+    /* Fotos trocando no fundo */
     .slideshow-background {
       position: fixed;
       top: 0;
@@ -26,7 +26,7 @@
       z-index: -1;
       background-size: cover;
       background-position: center;
-      animation: slideshow 15s infinite;
+      animation: slideshow 12s infinite;
     }
 
     @keyframes slideshow {
@@ -36,90 +36,135 @@
       100% { background-image: url('foto1.jpeg'); }
     }
 
-    /* Cartão do Quiz com fundo branco levemente transparente */
+    /* Cartão principal */
     .container {
-      max-width: 420px;
-      width: 90%;
-      background: rgba(255, 255, 255, 0.93);
+      max-width: 380px;
+      width: 85%;
+      background: rgba(255, 255, 255, 0.92);
       margin: 20px auto;
       padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
       text-align: center;
       box-sizing: border-box;
+      backdrop-filter: blur(3px);
     }
 
-    h1 { color: #d81b60; font-size: 24px; margin-bottom: 20px; }
-    .question { text-align: left; margin-bottom: 20px; }
-    label { font-weight: bold; display: block; margin-bottom: 8px; color: #333; }
-    select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; background-color: #fff; font-size: 15px; box-sizing: border-box; }
-    button { background-color: #d81b60; color: white; border: none; padding: 14px 20px; border-radius: 25px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; margin-top: 10px; }
-    button:hover { background-color: #ad1457; }
+    h1 { color: #d81b60; font-size: 22px; margin-bottom: 10px; }
+    p { font-size: 15px; line-height: 1.4; color: #555; }
+    
+    /* Botão de Presente Animado da Tela 1 */
+    .gift-btn {
+      background: #d81b60;
+      color: white;
+      border: none;
+      font-size: 45px;
+      padding: 15px 25px;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 15px;
+      box-shadow: 0 5px 15px rgba(216, 27, 96, 0.4);
+      animation: pulsar 1.5s infinite;
+      transition: transform 0.2s;
+    }
+
+    @keyframes pulsar {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    /* Formulário das Perguntas (Tela 2) */
+    .question { text-align: left; margin-bottom: 18px; }
+    label { font-weight: bold; display: block; margin-bottom: 6px; color: #333; font-size: 14px; }
+    select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; background-color: #fff; font-size: 14px; box-sizing: border-box; }
+    
+    .btn-acao { background-color: #d81b60; color: white; border: none; padding: 14px 20px; border-radius: 25px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; margin-top: 10px; }
     .btn-copiar { background-color: #25d366; margin-top: 15px; }
-    .btn-copiar:hover { background-color: #1eb956; }
-    #presente { display: none; margin-top: 25px; animation: fadeIn 0.8s; }
-    #erro { color: #e53935; display: none; margin-top: 15px; font-weight: bold; }
+
+    #tela2, #presente, #erro { display: none; }
+    #erro { color: #e53935; margin-top: 15px; font-weight: bold; }
+    .fade-in { animation: fadeIn 0.6s forwards; }
+
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
-  <!-- Elemento que exibe o fundo com as fotos -->
   <div class="slideshow-background"></div>
 
   <div class="container">
-    <h1>🎉 Parabéns, meu amor! ❤️</h1>
-    <p style="margin-bottom: 25px;">Responda às perguntas abaixo para liberar o seu presente especial:</p>
-
-    <div class="question">
-      <label for="p1">1. Qual o nome do seu am0r?</label>
-      <select id="p1">
-        <option value="">Selecione uma opção...</option>
-        <option value="A">A- Mozy</option>
-        <option value="B">B- Kats0n</option>
-        <option value="C">C- Mozão</option>
-        <option value="D">D- Vida</option>
-      </select>
+    
+    <!-- TELA 1: Boas-vindas e Botão de Presente -->
+    <div id="tela1" class="fade-in">
+      <h1>🎉 Parabéns, meu amor! ❤️</h1>
+      <p>Você tem um presente especial te esperando...</p>
+      <p style="font-size: 13px; color: #777;">Toque no presente abaixo para desbloquear:</p>
+      <button class="gift-btn" onclick="abrirQuiz()">🎁</button>
     </div>
 
-    <div class="question">
-      <label for="p2">2. Qual o nome do nosso filho?</label>
-      <select id="p2">
-        <option value="">Selecione uma opção...</option>
-        <option value="A">A- Apollo</option>
-        <option value="B">B- Apollo e Casca</option>
-        <option value="C">C- Negão</option>
-        <option value="D">D- Cheldon</option>
-      </select>
+    <!-- TELA 2: As Perguntas -->
+    <div id="tela2">
+      <h1>Desafio do Amor 🧩</h1>
+      <p style="margin-bottom: 20px; font-size: 14px;">Responda corretamente para liberar o presente:</p>
+
+      <div class="question">
+        <label for="p1">1. Qual o nome do seu am0r?</label>
+        <select id="p1">
+          <option value="">Selecione...</option>
+          <option value="A">A- Mozy</option>
+          <option value="B">B- Kats0n</option>
+          <option value="C">C- Mozão</option>
+          <option value="D">D- Vida</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label for="p2">2. Qual o nome do nosso filho?</label>
+        <select id="p2">
+          <option value="">Selecione...</option>
+          <option value="A">A- Apollo</option>
+          <option value="B">B- Apollo e Casca</option>
+          <option value="C">C- Negão</option>
+          <option value="D">D- Cheldon</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label for="p3">3. Há quanto tempo está junta do seu am0r?</label>
+        <select id="p3">
+          <option value="">Selecione...</option>
+          <option value="A">A- 18 anos</option>
+          <option value="B">B- 10 anos</option>
+          <option value="C">C- 20 anos</option>
+          <option value="D">D- 5 anos</option>
+        </select>
+      </div>
+
+      <button class="btn-acao" onclick="validarQuiz()">Desbloquear Presente ✨</button>
+      <p id="erro">Ops! Alguma resposta está errada. Tente de novo! ❤️</p>
     </div>
 
-    <div class="question">
-      <label for="p3">3. Há quanto tempo você está junta do seu am0r?</label>
-      <select id="p3">
-        <option value="">Selecione uma opção...</option>
-        <option value="A">A- 18 anos</option>
-        <option value="B">B- 10 anos</option>
-        <option value="C">C- 20 anos</option>
-        <option value="D">D- 5 anos</option>
-      </select>
-    </div>
-
-    <button onclick="validarQuiz()">Desbloquear Presente 🎁</button>
-
-    <p id="erro">Ops! Alguma resposta não está certa. Tente novamente! ❤️</p>
-
+    <!-- TELA 3: O Presente (Pix) -->
     <div id="presente">
-      <h2>✨ Você acertou tudo! ✨</h2>
-      <p>Escaneie o QR Code ou clique no botão para copiar o código Pix:</p>
-      <img id="qrcode-img" src="" alt="QR Code Pix" width="220" style="border-radius: 10px; margin-top: 10px;">
-      
-      <button class="btn-copiar" onclick="copiarPix()">📋 Copiar Código Pix</button>
+      <h1>✨ Você acertou tudo! ✨</h1>
+      <p>Aproveite o seu presente, você merece o mundo!</p>
+      <img id="qrcode-img" src="" alt="QR Code Pix" width="200" style="border-radius: 10px; margin-top: 10px;">
+      <button class="btn-acao btn-copiar" onclick="copiarPix()">📋 Copiar Código Pix</button>
     </div>
+
   </div>
 
   <script>
-    // IMPORTANTE: Cole o seu código Pix gerado entre as aspas abaixo:
+    // Cole o seu código Pix entre as aspas abaixo:
     const codigoPix = "00020126360014BR.GOV.BCB.PIX0114+55889971371785204000053039865406500.005802BR5922Katson Laerte Pinheiro6009SAO PAULO62140510mKjVqefbaF6304390C";
+
+    function abrirQuiz() {
+      document.getElementById('tela1').style.display = 'none';
+      const tela2 = document.getElementById('tela2');
+      tela2.style.display = 'block';
+      tela2.classList.add('fade-in');
+    }
 
     function validarQuiz() {
       const resp1 = document.getElementById('p1').value;
@@ -131,20 +176,21 @@
       const q3Correta = resp3 === "A"; 
 
       if (q1Correta && q2Correta && q3Correta) {
-        const qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + encodeURIComponent(codigoPix);
+        const qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(codigoPix);
         document.getElementById('qrcode-img').src = qrUrl;
 
-        document.getElementById('presente').style.display = 'block';
-        document.getElementById('erro').style.display = 'none';
+        document.getElementById('tela2').style.display = 'none';
+        const presente = document.getElementById('presente');
+        presente.style.display = 'block';
+        presente.classList.add('fade-in');
       } else {
         document.getElementById('erro').style.display = 'block';
-        document.getElementById('presente').style.display = 'none';
       }
     }
 
     function copiarPix() {
       navigator.clipboard.writeText(codigoPix);
-      alert("Código Pix copiado! Agora é só abrir o app do banco e usar a opção 'Pix Copia e Cola'. ❤️");
+      alert("Código Pix copiado com sucesso! ❤️");
     }
   </script>
 </body>
