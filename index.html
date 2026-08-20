@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Feliz Aniversário! ❤️</title>
   <style>
+    * { box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
@@ -16,14 +17,14 @@
       color: #4a4a4a;
     }
 
-    /* Fotos trocando no fundo */
+    /* Fotos em tela cheia no fundo */
     .slideshow-background {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -1;
+      z-index: 1;
       background-size: cover;
       background-position: center;
       animation: slideshow 12s infinite;
@@ -36,77 +37,104 @@
       100% { background-image: url('foto1.jpeg'); }
     }
 
-    /* Cartão principal */
-    .container {
-      max-width: 380px;
-      width: 85%;
-      background: rgba(255, 255, 255, 0.92);
-      margin: 20px auto;
-      padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-      text-align: center;
-      box-sizing: border-box;
-      backdrop-filter: blur(3px);
+    /* Tela 1: Apenas fotos limpas com botão flutuante no rodapé */
+    #tela1 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      padding-bottom: 50px;
+      background: linear-gradient(to top, rgba(0,0,0,0.6), transparent 50%);
     }
 
-    h1 { color: #d81b60; font-size: 22px; margin-bottom: 10px; }
-    p { font-size: 15px; line-height: 1.4; color: #555; }
-    
-    /* Botão de Presente Animado da Tela 1 */
+    .texto-inicio {
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+      text-align: center;
+      padding: 0 20px;
+    }
+
     .gift-btn {
       background: #d81b60;
       color: white;
       border: none;
       font-size: 45px;
-      padding: 15px 25px;
-      border-radius: 50px;
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
       cursor: pointer;
-      margin-top: 15px;
-      box-shadow: 0 5px 15px rgba(216, 27, 96, 0.4);
+      box-shadow: 0 0 20px rgba(216, 27, 96, 0.8);
       animation: pulsar 1.5s infinite;
-      transition: transform 0.2s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     @keyframes pulsar {
       0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
+      50% { transform: scale(1.15); }
       100% { transform: scale(1); }
     }
 
-    /* Formulário das Perguntas (Tela 2) */
-    .question { text-align: left; margin-bottom: 18px; }
+    /* Cartão branco para o Quiz e o Presente (Só aparece após o clique) */
+    .card {
+      position: relative;
+      z-index: 3;
+      max-width: 380px;
+      width: 88%;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+      text-align: center;
+      display: none;
+    }
+
+    h1 { color: #d81b60; font-size: 22px; margin-bottom: 10px; }
+    p { font-size: 14px; color: #555; }
+
+    .question { text-align: left; margin-bottom: 16px; }
     label { font-weight: bold; display: block; margin-bottom: 6px; color: #333; font-size: 14px; }
-    select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; background-color: #fff; font-size: 14px; box-sizing: border-box; }
-    
+    select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; background-color: #fff; font-size: 14px; }
+
     .btn-acao { background-color: #d81b60; color: white; border: none; padding: 14px 20px; border-radius: 25px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; margin-top: 10px; }
     .btn-copiar { background-color: #25d366; margin-top: 15px; }
 
-    #tela2, #presente, #erro { display: none; }
+    #presente, #erro { display: none; }
     #erro { color: #e53935; margin-top: 15px; font-weight: bold; }
-    .fade-in { animation: fadeIn 0.6s forwards; }
+    .fade-in { animation: fadeIn 0.5s forwards; }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
+  <!-- Fotos no fundo -->
   <div class="slideshow-background"></div>
 
-  <div class="container">
-    
-    <!-- TELA 1: Boas-vindas e Botão de Presente -->
-    <div id="tela1" class="fade-in">
-      <h1>🎉 Parabéns, meu amor! ❤️</h1>
-      <p>Você tem um presente especial te esperando...</p>
-      <p style="font-size: 13px; color: #777;">Toque no presente abaixo para desbloquear:</p>
-      <button class="gift-btn" onclick="abrirQuiz()">🎁</button>
+  <!-- TELA 1: Fotos limpas em tela cheia com botão flutuante -->
+  <div id="tela1">
+    <div class="texto-inicio">
+      🎉 Feliz Aniversário, meu amor! ❤️<br>
+      <span style="font-weight: normal; font-size: 14px; opacity: 0.9;">Toque no presente abaixo para abrir</span>
     </div>
+    <button class="gift-btn" onclick="abrirQuiz()">🎁</button>
+  </div>
 
-    <!-- TELA 2: As Perguntas -->
+  <!-- TELA 2: Cartão do Quiz (Aparece ao clicar no presente) -->
+  <div id="card-quiz" class="card">
     <div id="tela2">
       <h1>Desafio do Amor 🧩</h1>
-      <p style="margin-bottom: 20px; font-size: 14px;">Responda corretamente para liberar o presente:</p>
+      <p style="margin-bottom: 20px;">Responda corretamente para liberar o presente:</p>
 
       <div class="question">
         <label for="p1">1. Qual o nome do seu am0r?</label>
@@ -152,18 +180,18 @@
       <img id="qrcode-img" src="" alt="QR Code Pix" width="200" style="border-radius: 10px; margin-top: 10px;">
       <button class="btn-acao btn-copiar" onclick="copiarPix()">📋 Copiar Código Pix</button>
     </div>
-
   </div>
 
   <script>
-    // Cole o seu código Pix entre as aspas abaixo:
     const codigoPix = "00020126360014BR.GOV.BCB.PIX0114+55889971371785204000053039865406500.005802BR5922Katson Laerte Pinheiro6009SAO PAULO62140510mKjVqefbaF6304390C";
 
     function abrirQuiz() {
       document.getElementById('tela1').style.display = 'none';
+      const card = document.getElementById('card-quiz');
       const tela2 = document.getElementById('tela2');
+      card.style.display = 'block';
       tela2.style.display = 'block';
-      tela2.classList.add('fade-in');
+      card.classList.add('fade-in');
     }
 
     function validarQuiz() {
